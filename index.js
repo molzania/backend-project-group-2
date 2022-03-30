@@ -1,4 +1,5 @@
 const express = require("express");
+
 const { send } = require("express/lib/response");
 const mongoose = require("mongoose")
 
@@ -16,9 +17,11 @@ mongoose
   .catch((err) => console.log("gagal konek ke mongo"));
 
 
+
 app.use(express.json());
 
 app.use(express.urlencoded({ extend: true }));
+
 
 app.use(allRouter)
 
