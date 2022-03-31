@@ -1,5 +1,9 @@
-const Product = require('./product')
+const Product = require('./product');
+const Carts = require('./Carts');
+const Transactions = require('./transactions');
 
 module.exports = {
-    Product
+    Product,
+    Carts,
+    Transactions
 }

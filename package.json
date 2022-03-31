@@ -5,20 +5,22 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mukhid10/backend-project-group-2.git"
+    "url": "git+https://github.com/High-Haku/backend-project-group-2.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mukhid10/backend-project-group-2/issues"
+    "url": "https://github.com/High-Haku/backend-project-group-2/issues"
   },
-  "homepage": "https://github.com/mukhid10/backend-project-group-2#readme",
+  "homepage": "https://github.com/High-Haku/backend-project-group-2#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.9"
