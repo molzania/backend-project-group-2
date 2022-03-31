@@ -20,6 +20,7 @@
   "homepage": "https://github.com/mukhid10/backend-project-group-2#readme",
   "dependencies": {
     "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.9"
   },
   "devDependencies": {
