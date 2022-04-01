@@ -1,5 +1,8 @@
 const userModels = require("../models/userModels");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
+const accessTokensecret = "hallo";
 module.exports = {
   getAll: async (req, res) => {
     const users = await userModels.find({}, "-_v");
@@ -31,9 +34,13 @@ module.exports = {
 
   addUser: async (req, res) => {
     const data = req.body;
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(data.password, salt);
+    data.password = hash;
 
     try {
       await userModels.create(data);
+      console.log(data);
       res.json({
         message: "berhasil input data",
         data: 1,
@@ -43,4 +50,23 @@ module.exports = {
       res.status(500).send(err);
     }
   },
+
+  Login: async (req, res) => {
+    const {email, password} = req.body;
+    const user = await userModels.findOne({email: email});
+    console.log(user)
+    const unHash = bcrypt.compareSync(password, user.password);
+    try {
+      if(user && unHash){
+        const accessToken = jwt.sign({email: user.email}, accessTokensecret);
+        
+        res.json({accessToken});
+      } else {
+        res.json({error: "Salah password"})
+      }
+
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  }
 };
