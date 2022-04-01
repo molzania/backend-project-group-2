@@ -16,7 +16,7 @@ module.exports = {
     },
 
     getById: async (req, res) => {
-        const data = await Product.findById(req.params.id);
+        const data = await Product.findById(req.params.id, "-__v");
         try {
           res.json({
             message: "berhasil ambil data product",
@@ -43,7 +43,6 @@ module.exports = {
       },
 
       updateProductById: async (req, res) => {
-        const validasiId = await Product.findById(req.params.id)
     
         await Product.updateOne({_id: req.params.id}, {$set: req.body});
       try {

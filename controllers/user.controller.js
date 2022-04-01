@@ -1,6 +1,8 @@
 const userModels = require("../models/userModels");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken')
+
+const accessTokenSecret = "tokenKelompok-2"
 
 const accessTokensecret = "hallo";
 module.exports = {
@@ -33,10 +35,10 @@ module.exports = {
   },
 
   addUser: async (req, res) => {
-    const data = req.body;
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(data.password, salt);
-    data.password = hash;
+    const data = req.body
+    const salt = bcrypt.genSaltSync(10)
+    const hash = bcrypt.hashSync(data.password, salt)
+    data.password = hash
 
     try {
       await userModels.create(data);
@@ -51,22 +53,30 @@ module.exports = {
     }
   },
 
-  Login: async (req, res) => {
-    const {email, password} = req.body;
+  //Login
+  addUserLogin: async(req, res) => {
+    const { email, password } = req.body;
+    
     const user = await userModels.findOne({email: email});
-    console.log(user)
-    const unHash = bcrypt.compareSync(password, user.password);
-    try {
-      if(user && unHash){
-        const accessToken = jwt.sign({email: user.email}, accessTokensecret);
-        
-        res.json({accessToken});
-      } else {
-        res.json({error: "Salah password"})
-      }
+  console.log(user);
+  const unHAsh = bcrypt.compareSync(password, user.password)
 
+    try {
+      if (user && unHAsh) {
+        const accessToken = jwt.sign(
+          { email: user.email },
+          accessTokenSecret
+        );
+    
+        res.json({
+          accessToken,
+        });
+      } else {
+        res.send("Email atau password salah");
+      }
     } catch (error) {
-      res.status(500).send(error);
+      res.status(500).send(error)
     }
   }
+  
 };
