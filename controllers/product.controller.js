@@ -26,57 +26,57 @@ module.exports = {
     }
   },
   addProduct: async (req, res) => {
-        const data = req.body;
-        const { role } = req.user;
+    const data = req.body;
+    const { role } = req.user;
 
-        if (role === "admin") {
-          try {
-            await Product.create(data);
-            res.json({
-              message: "berhasil input data"
-            });
-          } catch (err) {
-            console.log(err);
-            res.status(500).send(err);
-          }
-        }else{
-          res.send("anda bukan admin")
-        }
-      },
-
-      updateProductById: async (req, res) => {    
-        await Product.updateOne({_id: req.params.id}, {$set: req.body});
-
-        const {role} = req.user;
-        
-        if (role === "admin") {          
-          try {
-            res.json({
-              message: "berhasil update data product byID"
-            });
-          } catch (err) {
-            console.log(err);
-            res.status(400).send(err);
-          }
-        }else{
-          res.send("anda bukan admin")
-        }
-    },
-
-    deleteProductById: async (req, res) => {
-        await Product.deleteOne({_id: req.params.id});
-        const {role} = req.user;
-        if (role === "admin") {          
-          try {
-            res.json({
-              message: "berhasil delete data product byID"
-            });
-          } catch (err) {
-            console.log(err);
-            res.status(500).send(err);
-          }
-        }else{
-          res.send("anda bukan admin")
-        }
+    if (role === "admin") {
+      try {
+        await Product.create(data);
+        res.json({
+          message: "berhasil input data"
+        });
+      } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
       }
+    } else {
+      res.send("anda bukan admin")
+    }
+  },
+
+  updateProductById: async (req, res) => {
+    const { role } = req.user;
+
+    if (role === "admin") {
+      await Product.updateOne({ _id: req.params.id }, { $set: req.body });
+      try {
+        res.json({
+          message: "berhasil update data product byID"
+        });
+      } catch (err) {
+        console.log(err);
+        res.status(400).send(err);
+      }
+    } else {
+      res.send("anda bukan admin")
+    }
+  },
+
+  deleteProductById: async (req, res) => {
+    const { role } = req.user;
+
+    if (role === "admin") {
+      await Product.deleteOne({ _id: req.params.id });
+      try {
+        res.json({
+          message: "berhasil delete data product byID"
+        });
+      } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+      }
+    } else {
+      res.send("anda bukan admin")
+    }
+  }
 };

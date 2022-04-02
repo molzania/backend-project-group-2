@@ -1,12 +1,13 @@
 const express = require("express");
 const transaction = express.Router();
+const authenticateJWT = require("../auth");
 
 const { getAll, getById, addTransaction, updateTransaction, deleteTransaction } = require("../controllers/transactions.controller");
 
-transaction.get("/", getAll);
-transaction.get("/:id", getById);
-transaction.post("/", addTransaction);
-transaction.put("/:id", updateTransaction);
-transaction.delete("/:id", deleteTransaction);
+transaction.get("/", authenticateJWT, getAll);
+transaction.get("/:id", authenticateJWT, getById);
+transaction.post("/", authenticateJWT, addTransaction);
+transaction.put("/:id", authenticateJWT, updateTransaction);
+transaction.delete("/:id", authenticateJWT, deleteTransaction);
 
 module.exports = transaction;
