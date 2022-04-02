@@ -63,16 +63,8 @@ module.exports = {
 
     try {
       if (user && unHAsh) {
-<<<<<<< HEAD
-        const accessToken = jwt.sign(
-          { email: user.email, role: user.role },
-          accessTokenSecret
-        );
-    
-=======
         const accessToken = jwt.sign({ email: user.email }, accessTokenSecret);
 
->>>>>>> f748984eadb5e716072757ae9a8aead4a053e9d0
         res.json({
           accessToken,
         });
