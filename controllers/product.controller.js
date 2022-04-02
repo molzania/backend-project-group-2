@@ -1,23 +1,17 @@
-const { Product } = require('../models/index')
+const { Product } = require("../models/index");
 
 module.exports = {
   getAll: async (req, res) => {
-    const { role } = req.user;
+    const data = await Product.find({}, "-__v");
 
-    if (role === 'admin') {
-      const data = await Product.find({}, "-__v");
-
-      try {
-        res.json({
-          message: "berhasil ambil data product",
-          data: data,
-        });
-      } catch (err) {
-        console.log(err);
-        res.status(500).send(err);
-      }
-    } else {
-      res.sendStatus(403);
+    try {
+      res.json({
+        message: "berhasil ambil data product",
+        data: data,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send(err);
     }
   },
 
@@ -40,7 +34,7 @@ module.exports = {
     try {
       await Product.create(data);
       res.json({
-        message: "berhasil input data"
+        message: "berhasil input data",
       });
     } catch (err) {
       console.log(err);
@@ -49,11 +43,10 @@ module.exports = {
   },
 
   updateProductById: async (req, res) => {
-
     await Product.updateOne({ _id: req.params.id }, { $set: req.body });
     try {
       res.json({
-        message: "berhasil update data product byID"
+        message: "berhasil update data product byID",
       });
     } catch (err) {
       console.log(err);
@@ -65,12 +58,11 @@ module.exports = {
     await Product.deleteOne({ _id: req.params.id });
     try {
       res.json({
-        message: "berhasil delete data product byID"
+        message: "berhasil delete data product byID",
       });
     } catch (err) {
       console.log(err);
       res.status(500).send(err);
     }
-  }
-
-}
+  },
+};

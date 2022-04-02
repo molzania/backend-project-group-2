@@ -1,8 +1,8 @@
 const userModels = require("../models/userModels");
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken')
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-const accessTokenSecret = "tokenKelompok-2"
+const accessTokenSecret = "tokenKelompok-2";
 
 const accessTokensecret = "hallo";
 module.exports = {
@@ -35,10 +35,10 @@ module.exports = {
   },
 
   addUser: async (req, res) => {
-    const data = req.body
-    const salt = bcrypt.genSaltSync(10)
-    const hash = bcrypt.hashSync(data.password, salt)
-    data.password = hash
+    const data = req.body;
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(data.password, salt);
+    data.password = hash;
 
     try {
       await userModels.create(data);
@@ -54,20 +54,25 @@ module.exports = {
   },
 
   //Login
-  addUserLogin: async(req, res) => {
+  addUserLogin: async (req, res) => {
     const { email, password } = req.body;
-    
-    const user = await userModels.findOne({email: email});
-  console.log(user);
-  const unHAsh = bcrypt.compareSync(password, user.password)
+
+    const user = await userModels.findOne({ email: email });
+    console.log(user);
+    const unHAsh = bcrypt.compareSync(password, user.password);
 
     try {
       if (user && unHAsh) {
+<<<<<<< HEAD
         const accessToken = jwt.sign(
           { email: user.email, role: user.role },
           accessTokenSecret
         );
     
+=======
+        const accessToken = jwt.sign({ email: user.email }, accessTokenSecret);
+
+>>>>>>> f748984eadb5e716072757ae9a8aead4a053e9d0
         res.json({
           accessToken,
         });
@@ -75,8 +80,36 @@ module.exports = {
         res.send("Email atau password salah");
       }
     } catch (error) {
-      res.status(500).send(error)
+      res.status(500).send(error);
     }
-  }
-  
+  },
+
+  // update
+  updateUser: async (req, res) => {
+    const id = req.params.id;
+    const data = req.body;
+
+    try {
+      await userModels.findByIdAndUpdate(id, data);
+      res.json({
+        massage: `User ${id} data updated`,
+        data: data,
+      });
+    } catch (eror) {
+      res.status(500).send(eror);
+    }
+  },
+
+  // delete
+  deleteUser: async (req, res) => {
+    const id = req.params.id;
+    await userModels.deleteOne({ _id: req.params.id });
+    try {
+      res.json({
+        massage: `Success delete data ${id}`,
+      });
+    } catch (eror) {
+      res.status(500).send(eror);
+    }
+  },
 };
