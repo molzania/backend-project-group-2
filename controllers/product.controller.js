@@ -1,33 +1,31 @@
-const { Product } = require('../models/index')
+const { Product } = require("../models/index");
 
 module.exports = {
-    getAll: async(req, res)=>{
-        const data = await Product.find({}, "-__v")
-          try {
-            res.json({
-              message: "berhasil ambil data product",
-              data: data,
-            });
-          } catch (err) {
-            console.log(err);
-            res.status(500).send(err);
-          }       
-    },
-
-    getById: async (req, res) => {
-        const data = await Product.findById(req.params.id, "-__v");
-        try {
-          res.json({
-            message: "berhasil ambil data product",
-            data: data,
-          });
-        } catch (err) {
-          console.log(err);
-          res.status(500).send(err);
-        }
-      },
-
-    addProduct: async (req, res) => {
+  getAll: async (req, res) => {
+    const data = await Product.find({}, "-__v");
+    try {
+      res.json({
+        message: "berhasil ambil data product",
+        data: data,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send(err);
+    }
+  },
+  getById: async (req, res) => {
+    const data = await Product.findById(req.params.id, "-__v");
+    try {
+      res.json({
+        message: "berhasil ambil data product",
+        data: data,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send(err);
+    }
+  },
+  addProduct: async (req, res) => {
         const data = req.body;
         const { role } = req.user;
 
@@ -81,5 +79,4 @@ module.exports = {
           res.send("anda bukan admin")
         }
       }
-
-}
+};
