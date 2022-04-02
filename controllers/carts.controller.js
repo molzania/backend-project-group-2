@@ -2,15 +2,20 @@ const { Carts } = require("../models")
 
 module.exports = {
     getAll: async (req, res) => {
-        const carts = await Carts.find({}, "-__v").populate("product", "-__v");
-        
-        try {
-            res.json({
-                message: "Success get all data from Carts",
-                data: carts
-            });
-        } catch (error) {
-            res.status(500).send(error);
+        const { role } = req.user;
+        if (role === "admin") {
+            const carts = await Carts.find({}, "-__v").populate("product", "-__v");
+
+            try {
+                res.json({
+                    message: "Success get all data from Carts",
+                    data: carts
+                });
+            } catch (error) {
+                res.status(500).send(error);
+            }
+        } else {
+            res.send("You're not allowed to get all data from Carts");
         }
     },
 
