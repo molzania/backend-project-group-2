@@ -1,14 +1,14 @@
-const { Carts } = require("../models")
+const { Flowers } = require("../models");
 
 module.exports = {
     getAll: async (req, res) => {
-        const carts = await Carts.find({}, "-__v").populate("product", "-__v");
-        
+        const flowers = await Flowers.find({}, "-__v");
+
         try {
             res.json({
-                message: "Success get all data from Carts",
-                data: carts
-            });
+                message: "Success get all data Flowers",
+                data: flowers
+            })
         } catch (error) {
             res.status(500).send(error);
         }
@@ -17,41 +17,25 @@ module.exports = {
     getById: async (req, res) => {
         const id = req.params.id;
 
-        const cart = await Carts.findById(id, "-__v").populate("product", "-__v");
+        const flower = await Flowers.findById(id, "-__v");
 
         try {
             res.json({
                 message: `Success get data ${id}`,
-                data: cart
+                data: flower
             })
         } catch (error) {
             res.status(500).send(error);
         }
     },
 
-    addCart: async (req, res) => {
+    addFlower: async (req, res) => {
         const data = req.body;
 
         try {
-            await Carts.create(data);
+            await Flowers.create(data);
             res.json({
-                message: "Success add data",
-                data: data
-            })
-        }
-        catch (error) {
-            res.status(500).send(error);
-        }
-    },
-
-    updateCart: async (req, res) => {
-        const data = req.body;
-        const id = req.params.id;
-
-        try {
-            await Carts.findByIdAndUpdate(id, data);
-            res.json({
-                message: `Cart ${id} data updated`,
+                message: "Success add new data flower",
                 data: data
             })
         } catch (error) {
@@ -59,17 +43,31 @@ module.exports = {
         }
     },
 
-    deleteCart: async (req, res) => {
+    updateFlower: async (req, res) => {
         const id = req.params.id;
+        const data = req.body;
 
         try {
-            await Carts.findByIdAndDelete(id);
+            await Flowers.findByIdAndUpdate(id, data);
             res.json({
-                message: `Cart ${id} was removed`
+                message: `Success update data ${id}`,
+                data: data
             })
-        }
-        catch (error) {
+        } catch (error) {
             res.status(500).send(error);
         }
     },
+
+    deleteFlower: async (req, res) => {
+        const id = req.params.id;
+
+        try {
+            await Flowers.findByIdAndDelete(id);
+            res.json({
+                message: `Flower ${id} was removed`
+            })
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    }
 }
