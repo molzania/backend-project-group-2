@@ -1,15 +1,16 @@
 const express = require('express')
 const router = express.Router();
+const authenticateJWT = require('../auth')
 const { getAll, getById, addProduct, updateProductById, deleteProductById  } = require('../controllers/product.controller')
 
 router.get('/', getAll)
 
 router.get("/:id", getById);
 
-router.post("/", addProduct);
+router.post("/", authenticateJWT, addProduct);
 
-router.put("/:id", updateProductById);
+router.put("/:id", authenticateJWT, updateProductById);
 
-router.delete("/:id", deleteProductById);
+router.delete("/:id", authenticateJWT, deleteProductById);
 
 module.exports = router;
