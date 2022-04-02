@@ -55,14 +55,13 @@ module.exports = {
   addUserLogin: async(req, res) => {
     const { email, password } = req.body;
     
-    const user = await userModels.findOne({email: email});
-  console.log(user);
+  const user = await userModels.findOne({email: email});
   const unHAsh = bcrypt.compareSync(password, user.password)
 
     try {
       if (user && unHAsh) {
         const accessToken = jwt.sign(
-          { email: user.email },
+          { email: user.email, role : user.role  },
           accessTokenSecret
         );
     
