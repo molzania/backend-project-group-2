@@ -7,18 +7,22 @@ const accessTokenSecret = "tokenKelompok-2";
 const accessTokensecret = "hallo";
 module.exports = {
   getAll: async (req, res) => {
-    const users = await userModels.find({}, "-_v");
-    console.log("users");
-
-    try {
-      res.json({
-        massage: "berhasil ambil data user",
-        data: users,
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(500).send(err);
+    const { role } = req.user;
+    if (role === "admin") {
+      const users = await userModels.find({}, "-_v");
+      try {
+        res.json({
+          massage: "berhasil ambil data user",
+          data: users,
+        });
+      } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+      }
+    }else{
+      res.send('anda bukan admin')
     }
+  
   },
 
   getByID: async (req, res) => {
