@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const accessTokenSecret = "tokenKelompok-2";
 
+const accessTokensecret = "hallo";
 module.exports = {
   getAll: async (req, res) => {
     const { role } = req.user;
@@ -45,6 +46,7 @@ module.exports = {
 
     try {
       await userModels.create(data);
+      console.log(data);
       res.json({
         message: "berhasil input data",
         data: 1,
