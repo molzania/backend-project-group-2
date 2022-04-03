@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const authenticateJWT = require("../auth");
 
 const {
   getAll,
@@ -10,7 +11,7 @@ const {
   deleteUser,
 } = require("../controllers/user.controller");
 
-router.get("/", getAll);
+router.get("/", authenticateJWT, getAll);
 router.get("/:id", getByID);
 router.post("/", addUser);
 router.post("/login", addUserLogin);
