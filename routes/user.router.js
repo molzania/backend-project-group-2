@@ -15,7 +15,7 @@ router.get("/", authenticateJWT, getAll);
 router.get("/:id", getByID);
 router.post("/", addUser);
 router.post("/login", addUserLogin);
-router.post("/:id", updateUser);
+router.put("/:id", updateUser);
 router.delete("/:id", deleteUser);
 
 module.exports = router;
